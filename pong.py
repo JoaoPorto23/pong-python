@@ -1,5 +1,7 @@
 import pygame, sys
 
+from pygame.constants import AUDIO_ALLOW_ANY_CHANGE
+
 def ball_animation():
     global ball_speed_x, ball_speed_y
     ball.x += ball_speed_x
@@ -20,10 +22,10 @@ def player_animation():
     if player.bottom >=screen_height:
         player.bottom = screen_height
 
-def opponent_animation():
+def opponent_ai():
     if opponent.top < ball.y:
-        opponent.top =+ opponent_speed
-    if opponent.bottom < ball.y:
+        opponent.top += opponent_speed
+    if opponent.bottom > ball.y:
         opponent.bottom -= opponent_speed
     if opponent.top <=0:
         opponent.top = 0
@@ -74,7 +76,8 @@ while True:
     ball_animation()
     player.y += player_speed
     player_animation()
-    opponent_animation()
+    opponent_ai()
+
 
     #Visual
     screen.fill(bg_color)
@@ -85,3 +88,4 @@ while True:
 
     pygame.display.flip()
     clock.tick(60)
+
