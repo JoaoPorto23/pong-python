@@ -13,6 +13,23 @@ def ball_animation():
     if ball.colliderect(player) or ball.colliderect(opponent):
         ball_speed_x *= -1
 
+def player_animation():
+    player.y += player_speed
+    if player.top <=0:
+        player.top = 0
+    if player.bottom >=screen_height:
+        player.bottom = screen_height
+
+def opponent_animation():
+    if opponent.top < ball.y:
+        opponent.top =+ opponent_speed
+    if opponent.bottom < ball.y:
+        opponent.bottom -= opponent_speed
+    if opponent.top <=0:
+        opponent.top = 0
+    if opponent.bottom >=screen_height:
+        opponent.bottom = screen_height
+
 #Setup geral
 pygame.init()
 clock = pygame.time.Clock()
@@ -35,6 +52,7 @@ light_grey = (200,200,200)
 ball_speed_x = 7
 ball_speed_y = 7
 player_speed = 0
+opponent_speed = 7
 
 #Loop para fechar o tela
 while True:
@@ -44,10 +62,19 @@ while True:
             sys.exit()
         if event.type ==  pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:            
-
+                player_speed += 7
+            if event.key == pygame.K_UP:
+                player_speed -= 7
+        if event.type ==  pygame.KEYUP:
+            if event.key == pygame.K_DOWN:            
+                player_speed -= 7
+            if event.key == pygame.K_UP:
+                player_speed += 7
 
     ball_animation()
     player.y += player_speed
+    player_animation()
+    opponent_animation()
 
     #Visual
     screen.fill(bg_color)
